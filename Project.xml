@@ -44,7 +44,7 @@
 	<assets path="assets/data" />
 	<assets path='example_mods' rename='mods' embed='false'/>
 	<!-- <template path='mods' /> -->
-	
+
 	<!-- <library name="noPreload" preload='false'/> -->
 	<!-- <library name="noPreload"/> -->
 	<assets path="assets/music" include="*.mp3" if="web"/>
@@ -54,7 +54,7 @@
 
 	<assets path="CHANGELOG.md"/>
 
-	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY 
+	<!-- NOTE FOR FUTURE SELF SINCE FONTS ARE ALWAYS FUCKY
 		TO FIX ONE OF THEM, I CONVERTED IT TO OTF. DUNNO IF YOU NEED TO
 		THEN UHHH I USED THE NAME OF THE FONT WITH SETFORMAT() ON THE TEXT!!!
 		NOT USING A DIRECT THING TO THE ASSET!!!
@@ -68,6 +68,9 @@
 	<!--In case you want to use the addons package-->
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
+
+	<!-- Discord-RPC Experimental -->
+	<haxelib name="discord_rpc" if='desktop'/>
 
 	<!--In case you want to use the ui package-->
 	<haxelib name="flixel-ui" />
@@ -118,5 +121,5 @@
 
 	<!-- <haxedef name="SKIP_TO_PLAYSTATE" if="debug" /> -->
 	<haxedef name="NG_LOGIN" if="newgrounds" />
-	
+
 </project>

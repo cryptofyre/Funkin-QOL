@@ -45,6 +45,10 @@ class TitleState extends MusicBeatState
 	{
 		Polymod.init({modRoot: "mods", dirs: ['introMod']});
 
+		#if desktop
+		DiscordManager.init();
+		#end
+
 		#if (!web)
 		TitleState.soundExt = '.ogg';
 		#end

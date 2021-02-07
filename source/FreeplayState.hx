@@ -30,9 +30,13 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
+		#if desktop
+		DiscordManager.updateState("Freeplay Menu");
+		#end
+
 		songs = CoolUtil.coolTextFile('assets/data/freeplaySonglist.txt');
 
-		/* 
+		/*
 			if (FlxG.sound.music != null)
 			{
 				if (!FlxG.sound.music.playing)
@@ -131,7 +135,7 @@ class FreeplayState extends MusicBeatState
 		var swag:Alphabet = new Alphabet(1, 0, "swag");
 
 		// JUST DOIN THIS SHIT FOR TESTING!!!
-		/* 
+		/*
 			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
 
 			var texFel:TextField = new TextField();

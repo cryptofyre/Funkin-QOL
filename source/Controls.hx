@@ -10,6 +10,7 @@ import flixel.input.actions.FlxActionSet;
 import flixel.input.gamepad.FlxGamepadButton;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
+import flixel.system.macros.FlxMacroUtil;
 
 #if (haxe >= "4.0.0")
 enum abstract Action(String) to String from String
@@ -206,6 +207,8 @@ class Controls extends FlxActionSet
 	inline function get_CHEAT()
 		return _cheat.check();
 
+	public static var keyboardMap:Map<String, FlxKey> = new Map();
+
 	#if (haxe >= "4.0.0")
 	public function new(name, scheme = None)
 	{
@@ -259,7 +262,7 @@ class Controls extends FlxActionSet
 
 		for (action in digitalActions)
 			byName[action.name] = action;
-			
+
 		if (scheme == null)
 			scheme = None;
 		setKeyboardScheme(scheme, false);
@@ -492,20 +495,21 @@ class Controls extends FlxActionSet
 		if (reset)
 			removeKeyboard();
 
+		FlxG.save.bind('funkin', 'ninjamuffin99');
+		loadControls();
 		keyboardScheme = scheme;
-		
+
 		#if (haxe >= "4.0.0")
 		switch (scheme)
 		{
 			case Solo:
-				inline bindKeys(Control.UP, [W, FlxKey.UP]);
-				inline bindKeys(Control.DOWN, [S, FlxKey.DOWN]);
-				inline bindKeys(Control.LEFT, [A, FlxKey.LEFT]);
-				inline bindKeys(Control.RIGHT, [D, FlxKey.RIGHT]);
-				inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
-				inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-				inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
-				inline bindKeys(Control.RESET, [R]);
+				for(cont in Type.allEnums(Controls.Control))
+				{
+					if(cont != Control.CHEAT){
+						inline bindKeys(cont,[keyboardMap[Std.string(cont)]]);
+						inline bindKeys(cont,[keyboardMap[Std.string(cont) + ' (ALTERNATE)']]);
+					}
+				}
 			case Duo(true):
 				inline bindKeys(Control.UP, [W]);
 				inline bindKeys(Control.DOWN, [S]);
@@ -563,6 +567,30 @@ class Controls extends FlxActionSet
 		#end
 	}
 
+	static function loadControls(){
+		if (FlxG.save.data.keyboardMap != null)
+		{
+			keyboardMap = FlxG.save.data.keyboardMap;
+		}
+		else
+		{
+			var keyMaps:Map<String, FlxKey> = FlxMacroUtil.buildMap("flixel.input.keyboard.FlxKey");
+
+			var controlsStrings = CoolUtil.coolTextFile('assets/data/controls.txt');
+
+			keyboardMap = new Map();
+			for (i in 0...controlsStrings.length){
+				var elements:Array<String> = controlsStrings[i].split(',');
+				keyboardMap.set(elements[0],keyMaps[elements[1]]);
+			}
+		}
+	}
+
+	public static function saveControls(){
+		FlxG.save.data.keyboardMap = keyboardMap;
+		FlxG.save.flush();
+	}
+
 	function removeKeyboard()
 	{
 		for (action in this.digitalActions)
@@ -580,7 +608,7 @@ class Controls extends FlxActionSet
 	public function addGamepad(id:Int, ?buttonMap:Map<Control, Array<FlxGamepadInputID>>):Void
 	{
 		gamepadsAdded.push(id);
-		
+
 		#if (haxe >= "4.0.0")
 		for (control => buttons in buttonMap)
 			inline bindButtons(control, id, buttons);

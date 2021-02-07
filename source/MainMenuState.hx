@@ -31,6 +31,10 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		#if desktop
+		DiscordManager.updateState("Main Menu");
+		#end
+
 		if (!FlxG.sound.music.playing)
 		{
 			FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
@@ -128,7 +132,7 @@ class MainMenuState extends MusicBeatState
 				if (optionShit[curSelected] == 'donate')
 				{
 					#if linux
-					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin", "&"]);
+					Sys.command('/usr/bin/xdg-open', ["https://ninja-muffin24.itch.io/funkin"]);
 					#else
 					FlxG.openURL('https://ninja-muffin24.itch.io/funkin');
 					#end

@@ -77,6 +77,11 @@ class PlayState extends MusicBeatState
 	private var gfSpeed:Int = 1;
 	private var health:Float = 1;
 	private var combo:Int = 0;
+	private var misses:Int = 0;
+	private var accuracy:Float = 0.00;
+	private var totalNotesHit:Float = 0;
+	private var totalPlayed:Int = 0;
+	private var ss:Bool = false;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -435,7 +440,7 @@ class PlayState extends MusicBeatState
 			bg.scale.set(6, 6);
 			add(bg);
 
-			/* 
+			/*
 				var bg:FlxSprite = new FlxSprite(posX, posY).loadGraphic('assets/images/weeb/evilSchoolBG.png');
 				bg.scale.set(6, 6);
 				// bg.setGraphicSize(Std.int(bg.width * 6));
@@ -457,7 +462,7 @@ class PlayState extends MusicBeatState
 			// bg.shader = wiggleShit.shader;
 			// fg.shader = wiggleShit.shader;
 
-			/* 
+			/*
 				var waveSprite = new FlxEffectSprite(bg, [waveEffectBG]);
 				var waveSpriteFG = new FlxEffectSprite(fg, [waveEffectFG]);
 
@@ -674,8 +679,8 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, "", 20);
-		scoreTxt.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, RIGHT);
+		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 50, 0, "", 20);
+		scoreTxt.setFormat("assets/fonts/vcr.ttf", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		add(scoreTxt);
 
@@ -757,6 +762,25 @@ class PlayState extends MusicBeatState
 
 		super.create();
 	}
+
+	function updateAccuracy()
+		{
+
+			totalPlayed += 1;
+			accuracy = totalNotesHit / totalPlayed * 100;
+			trace(totalNotesHit + '/' + totalPlayed + '* 100 = ' + accuracy);
+			if (accuracy >= 100.00)
+			{
+				if (ss && misses == 0)
+					accuracy = 100.00;
+				else
+				{
+					accuracy = 99.98;
+					ss = false;
+				}
+			}
+
+		}
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
@@ -846,6 +870,17 @@ class PlayState extends MusicBeatState
 
 	function startCountdown():Void
 	{
+
+		#if desktop
+		var songName:String = SONG.song;
+
+		if (isStoryMode) {
+			DiscordManager.updateState('Story Mode - $songName');
+		} else {
+			DiscordManager.updateState('Freeplay - $songName');
+		}
+		#end
+
 		inCutscene = false;
 
 		generateStaticArrows(0);
@@ -1255,7 +1290,6 @@ class PlayState extends MusicBeatState
 	function resyncVocals():Void
 	{
 		vocals.pause();
-
 		FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
 		vocals.time = Conductor.songPosition;
@@ -1265,6 +1299,13 @@ class PlayState extends MusicBeatState
 	private var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
+
+	function truncateFloat( number : Float, precision : Int): Float {
+		var num = number;
+		num = num * Math.pow(10, precision);
+		num = Math.round( num ) / Math.pow(10, precision);
+		return num;
+		}
 
 	override public function update(elapsed:Float)
 	{
@@ -1298,7 +1339,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -1581,7 +1622,7 @@ class PlayState extends MusicBeatState
 				{
 					if (daNote.tooLate || !daNote.wasGoodHit)
 					{
-						health -= 0.0475;
+						health -= 0.075;
 						vocals.volume = 0;
 					}
 
@@ -1709,19 +1750,29 @@ class PlayState extends MusicBeatState
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.9)
 		{
-			daRating = 'shit';
-			score = 50;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.75)
-		{
-			daRating = 'bad';
-			score = 100;
-		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.2)
-		{
-			daRating = 'good';
-			score = 200;
-		}
+				daRating = 'shit';
+				totalNotesHit += 0.05;
+				score = 50;
+				ss = false;
+			}
+			else if (noteDiff > Conductor.safeZoneOffset * 0.75)
+			{
+				daRating = 'bad';
+				score = 100;
+				totalNotesHit += 0.10;
+				ss = false;
+			}
+			else if (noteDiff > Conductor.safeZoneOffset * 0.2)
+			{
+				daRating = 'good';
+				totalNotesHit += 0.65;
+				score = 200;
+				ss = false;
+			}
+		if (daRating == 'sick')
+			totalNotesHit += 1;
+
+		trace('hit ' + daRating);
 
 		songScore += score;
 
@@ -1817,7 +1868,7 @@ class PlayState extends MusicBeatState
 
 			daLoop++;
 		}
-		/* 
+		/*
 			trace(combo);
 			trace(seperatedScore);
 		 */
@@ -1929,12 +1980,12 @@ class PlayState extends MusicBeatState
 				{
 					noteCheck(controlArray[daNote.noteData], daNote);
 				}
-				/* 
+				/*
 					if (controlArray[daNote.noteData])
 						goodNoteHit(daNote);
 				 */
 				// trace(daNote.noteData);
-				/* 
+				/*
 					switch (daNote.noteData)
 					{
 						case 2: // NOTES YOU JUST PRESSED
@@ -2044,6 +2095,7 @@ class PlayState extends MusicBeatState
 			{
 				gf.playAnim('sad');
 			}
+			misses += 1;
 			combo = 0;
 
 			songScore -= 10;
@@ -2091,12 +2143,15 @@ class PlayState extends MusicBeatState
 			noteMiss(3);
 		if (downP)
 			noteMiss(1);
+		updateAccuracy();
 	}
 
 	function noteCheck(keyP:Bool, note:Note):Void
 	{
 		if (keyP)
+		{
 			goodNoteHit(note);
+		}
 		else
 		{
 			badNoteCheck();
@@ -2112,6 +2167,8 @@ class PlayState extends MusicBeatState
 				popUpScore(note.strumTime);
 				combo += 1;
 			}
+			else
+				totalNotesHit += 1;
 
 			if (note.noteData >= 0)
 				health += 0.023;
@@ -2144,6 +2201,7 @@ class PlayState extends MusicBeatState
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
+			updateAccuracy();
 		}
 	}
 

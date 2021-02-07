@@ -10,9 +10,9 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		FlxG.updateFramerate = 240;
-		FlxG.drawFramerate = 240;
 		addChild(new FlxGame(0, 0, TitleState));
+		FlxG.flashFramerate = 240;
+		FlxG.framerate = 240;
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));

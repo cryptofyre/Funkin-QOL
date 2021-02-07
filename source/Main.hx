@@ -11,7 +11,7 @@ class Main extends Sprite
 	{
 		super();
 		FlxG.updateFramerate = 240;
-		FlxG.drawFramerate = 240
+		FlxG.drawFramerate = 240;
 		addChild(new FlxGame(0, 0, TitleState));
 
 		#if !mobile

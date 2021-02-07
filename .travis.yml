@@ -1,38 +1,25 @@
-{
-  "name": "Build-Funkin-QOL",
-  "on": {
-    "push": {
-      "branches": [
-        "main"
-      ]
-    },
-    "pull_request": {
-      "branches": [
-        "main"
-      ]
-    },
-    "workflow_dispatch": null
-  },
-  "language": "haxel",
-  "os": [
-    "linux"
-  ],
-  "dist": "xenial",
-  "jobs": {
-    "build": {
-      "runs-on": "ubuntu-latest",
-      "steps": [
-        {
-          "uses": "krdlab/setup-haxe@v1.1.4",
-          "with": {
-            "haxe-version": "4.1.5"
-          }
-        },
-        {
-          "name": "Run build script",
-          "run": "git clone https://github.com/iiFir3z/Funkin-QOL.git && cd Funkin-QOL/ && haxelib install openfl && haxelib install hscript && haxelib install flixel && haxelib install flixel-ui && haxelib install flixel-addons && haxelib install hxcpp && haxelib install lime && haxelib git polymod https://github.com/larsiusprime/polymod.git && haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc.git && echo Starting build. && haxelib run lime build linux -final -v -D NO_PRECOMPILED_HEADERS && echo Completed build process successfully."
-        }
-      ]
-    }
-  }
-}
+language: haxe
+
+haxe:
+  - "4.1.5"
+
+os: linux
+
+jobs:
+  include:
+      - stage: "Installing dependencies."
+        script:
+         - haxelib install openfl
+         - haxelib install hscript
+         - haxelib install flixel
+         - haxelib install flixel-ui
+         - haxelib install flixel-addons
+         - haxelib install hxcpp
+         - haxelib install lime
+         - haxelib git polymod https://github.com/larsiusprime/polymod.git
+         - haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc.git
+        
+       - stage: "Starting Build."
+         script:
+         - haxelib run lime build linux -final -v -D NO_PRECOMPILED_HEADERS
+

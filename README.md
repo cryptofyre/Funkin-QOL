@@ -52,7 +52,7 @@ and you should be good to compile.
 
 Linux:
 ```
-haxelib run lime build linux -final -v
+haxelib run lime build linux -final -v -D NO_PRECOMPILED_HEADERS
 ```
 Windows:
 ```

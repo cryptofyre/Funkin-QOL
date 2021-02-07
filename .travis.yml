@@ -18,8 +18,7 @@ jobs:
          - haxelib install lime
          - haxelib git polymod https://github.com/larsiusprime/polymod.git
          - haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc.git
-        
-       - stage: "Starting Build."
-         script:
-         - haxelib run lime build linux -final -v -D NO_PRECOMPILED_HEADERS
 
+      - stage: "Starting Build."
+        script:
+         - haxelib run lime build linux -final -v -D NO_PRECOMPILED_HEADERS

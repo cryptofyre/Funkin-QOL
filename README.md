@@ -1,4 +1,4 @@
-# Friday Night Funkin QOL
+# Friday Night Funkin QOL [![Build Status](https://travis-ci.com/iiFir3z/Funkin-QOL.svg?branch=main)](https://travis-ci.com/iiFir3z/Funkin-QOL)
 
 This is the repository for Friday Night Funkin QOL, a game originally made for Ludum Dare 47 "Stuck In a Loop" by ninja_muffin99.
 

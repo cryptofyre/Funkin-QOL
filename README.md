@@ -5,10 +5,10 @@ This is the repository for Friday Night Funkin QOL, a game originally made for L
 This QOL release includes quality of life improvements, Discord RPC support and the ability to change your keybinds and a better playing experience with up to 240FPS.
 
 Upcoming changes:
-1080P Scene Support
-iOS Support
-Android Support
-Multiplayer (Local)
+* 1080P Scene Support
+* iOS Support
+* Android Support
+* Multiplayer (Local)
 
 Play the Ludum Dare prototype here: https://ninja-muffin24.itch.io/friday-night-funkin
 Play the Newgrounds one here: https://www.newgrounds.com/portal/view/770371
@@ -50,19 +50,24 @@ and you should be good to compile.
 
 ### Compiling game
 
-Linux:```
+Linux:
+```
 haxelib run lime build linux -final -v
 ```
-Windows:```
+Windows:
+```
 haxelib run lime build windows -final -v
 ```
-macOS:```
+macOS:
+```
 haxelib run lime build macos -final -v
 ```
-iOS(WIP):```
+iOS(WIP):
+```
 haxelib run lime build ios -final -v
 ```
-Android(WIP):```
+Android(WIP):
+```
 haxelib run lime build android -final -v
 ```
 

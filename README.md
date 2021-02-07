@@ -2,7 +2,7 @@
 
 This is the repository for Friday Night Funkin QOL, a game originally made for Ludum Dare 47 "Stuck In a Loop" by ninja_muffin99.
 
-This QOL release includes quality of life improvements, Discord RPC support and the ability to change your keybinds and a better playing experience with up to 240FPS.
+This QOL release includes quality of life improvements, Accuracy Percent, Missed Notes, Discord RPC support, and a better playing experience with up to 120FPS.
 
 Upcoming changes:
 * 1080P Scene Support

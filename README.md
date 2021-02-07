@@ -35,15 +35,15 @@ flixel-ui
 flixel-addons
 hxcpp
 lime
-discord_rpc
 ```
 
 So for each of those type `haxelib install [library]` that stuff.
 
-You'll also need to install polymod. Do this with
+You'll also need to install polymod and discord_rpc. Do this with
 
 ```
 haxelib git polymod https://github.com/larsiusprime/polymod.git
+haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc.git
 ```
 
 and you should be good to compile.

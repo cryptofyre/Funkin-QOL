@@ -169,3 +169,4 @@ class OptionsMenu extends MusicBeatState
 		}
 	}
 }
+}

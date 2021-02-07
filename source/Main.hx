@@ -3,14 +3,13 @@ package;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
-import flixel.FlxG;
 
 class Main extends Sprite
 {
 	public function new()
 	{
 		super();
-		FlxG.framerate = 240;
+		FlxGame.GameFramerate = 240;
 		addChild(new FlxGame(0, 0, TitleState));
 
 		#if !mobile

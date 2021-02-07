@@ -28,6 +28,7 @@ jobs:
         run: |
           git clone https://github.com/iiFir3z/Funkin-QOL.git
           cd Funkin-QOL/
+          haxelib install openfl
           haxelib install hscript
           haxelib install flixel
           haxelib install flixel-ui

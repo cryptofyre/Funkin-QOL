@@ -12,7 +12,7 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(0, 0, TitleState));
 		FlxG.drawFramerate = 120;
-		FlxG.updateFramerate = 120;
+		FlxG.updateFramerate = 240; // just a quick test
 
 		#if !mobile
 		addChild(new FPS(10, 3, 0xFFFFFF));

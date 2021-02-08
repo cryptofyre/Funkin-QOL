@@ -1,4 +1,4 @@
-# Friday Night Funkin QOL
+# Friday Night Funkin QOL [![Build Status](https://travis-ci.com/iiFir3z/Funkin-QOL.svg?branch=main)](https://travis-ci.com/iiFir3z/Funkin-QOL)
 
 This is the repository for Friday Night Funkin QOL, a game originally made for Ludum Dare 47 "Stuck In a Loop" by ninja_muffin99.
 
@@ -30,6 +30,7 @@ The link to that is on the [HaxeFlixel website](https://haxeflixel.com/documenta
 Other installations you'd need is the additional libraries, a fully updated list will be in `Project.xml` in the project root, but here are the one's I'm using as of writing.
 
 ```
+openfl
 hscript
 flixel-ui
 flixel-addons

@@ -275,19 +275,19 @@ class FreeplayState extends MusicBeatState
 				item.alpha = 1;
 				// item.setGraphicSize(Std.int(item.width));
 			}
+		}
 
-			override function add(Object:flixel.FlxBasic):flixel.FlxBasic
-			{
-				trackedAssets.insert(trackedAssets.length, Object);
-				return super.add(Object);
-			}
+		override function add(Object:flixel.FlxBasic):flixel.FlxBasic
+		{
+			trackedAssets.insert(trackedAssets.length, Object);
+			return super.add(Object);
+		}
 
-			function unloadAssets():Void
+		function unloadAssets():Void
+		{
+			for (asset in trackedAssets)
 			{
-				for (asset in trackedAssets)
-				{
-					remove(asset);
-				}
+				remove(asset);
 			}
 		}
 	}
